@@ -1,0 +1,93 @@
+
+
+" Working env variables {{{
+ 
+    let g:py_projects_dir =  $WORKSPACE_HOME . '/python/'
+    let g:tx_projects_dir =  $WORKSPACE_HOME . '/latex/'
+    let g:cpp_projects_dir =  $WORKSPACE_HOME . '/cpp/'
+    let g:ctags_tags_folder = $HOME . '/.vim/tags/'
+    let g:cscope_dbs_folder = $HOME . '/.vim/cscope/'
+    let g:py_install_path = '/usr/lib64/python3.10'
+"}}}
+
+
+" Syntastic config {{{
+    let g:syntastic_enable_balloons=1
+    let g:syntastic_check_on_open =0
+    let g:syntastic_check_on_wq=0
+    let g:syntastic_python_checkers = ['pep8']
+    let g:syntastic_cpp_compiler = 'clang++'
+    let g:syntastic_cpp_compiler_options = ' -std=c++17 -stdlib=libc++'
+"}}}
+
+
+" Syntastic config {{{
+    let g:syntastic_always_populate_loc_list = 1 
+    let g:ycm_autoclose_preview_window_after_completion = 1
+    let g:ycm_global_ycm_extra_conf = $HOME. '/.vim/config/ycm.py'
+"}}}
+
+
+" Ultisnips config {{{
+    let g:UltiSnipsEditSplit="vertical"
+    let g:UltiSnipsExpandTrigger="<c-j>"
+    let g:UltiSnipsJumpForwardTrigger="<c-j>"
+    let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+    let g:UltiSnipsListSnippets="<c-h>"
+    let g:UltiSnipsSnippetsDir = $HOME . "/.vim/snips"
+    let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/snips', 'Ultisnips']
+    let g:snips_email = 'n/a'
+    let g:snips_github = 'https://github.com/axeh101'
+    let g:snips_author = 'Axeh101'
+"}}}
+
+
+" cpp config {{{
+    let g:cpp_class_scope_highlight = 1
+    let g:cpp_member_variable_highlight = 1
+    let g:cpp_class_decl_highlight = 1
+    let g:cpp_concepts_highlight = 1
+"}}}
+
+
+"Supertab config {{{
+    let g:SuperTabDefaultCompletionType = "context"
+    let g:SuperTabContextDefaultCompletionType = "<c-n>"
+"}}}
+
+
+" Airline config {{{
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline_powerline_fonts = 1
+    let g:airline_theme='onedark'
+"}}}
+
+
+"{{{
+    let g:semshi#filetypes = ['python']
+    let g:semshi#excluded_hl_groups = ['local']
+    let g:semshi#mark_selected_nodes = 1
+    let g:semshi#no_default_builtin_highlight = v:false
+    let g:semshi#simplify_markup = v:true
+    let g:semshi#error_sign = v:true
+    let g:semshi#error_sign_delay = 1.5
+    let g:semshi#always_update_all_highlights = v:false
+    let g:semshi#tolerate_syntax_errors = v:true
+    let g:semshi#update_delay_factor = 0
+    let g:semshi#self_to_attribute = v:true
+
+"}}}
+let g:PaperColor_Theme_Options = {
+  \   'language': {
+  \     'python': {
+  \       'highlight_builtins' : 1
+  \     },
+  \     'cpp': {
+  \       'highlight_standard_library': 1
+  \     },
+  \     'c': {
+  \       'highlight_builtins' : 1
+  \     }
+  \   }
+  \ }
+" vim:ft=vim

@@ -1,0 +1,24 @@
+set rtp+=~/.vim/bundle/Vundle.vim
+filetype off
+set nocompatible 
+
+call vundle#begin()
+    Plugin 'VundleVim/Vundle.vim'
+    Plugin 'vim-syntastic/syntastic'
+    Plugin 'SirVer/ultisnips'
+    Plugin 'Valloric/YouCompleteMe'
+    Plugin 'honza/vim-snippets'
+    Plugin 'majutsushi/tagbar'
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'tomtom/tcomment_vim'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'vim-scripts/summerfruit256.vim'
+    Plugin 'NLKNguyen/papercolor-theme'
+    Plugin 'vim-scripts/cscope.vim'
+    Plugin 'kien/ctrlp.vim'
+    Plugin 'joshdick/onedark.vim'
+    Plugin 'tpope/vim-surround'
+
+call vundle#end()

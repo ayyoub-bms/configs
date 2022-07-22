@@ -1,0 +1,77 @@
+
+" App mappings {{{
+    nnoremap <F2> :NERDTreeToggle<CR>
+    nnoremap <F3> :TagbarToggle<CR>
+"}}}
+"
+" Spell mapping {{{
+    nnoremap <leader>ss :setlocal spell spelllang=fr,en_us<CR>
+    nnoremap <leader>ns :set nospell<CR>
+"}}}
+
+
+"Navigation mapping {{{
+    nnoremap <C-H> <C-W><C-H>
+    nnoremap <C-J> <C-W><C-J>
+    nnoremap <C-K> <C-W><C-K>
+    nnoremap <C-L> <C-W><C-L>
+    nnoremap <leader>j :tabp<cr>
+    nnoremap <leader>k :tabn<cr>
+"}}}
+
+
+" Split resize mapping {{{
+if has('gui_running')
+    nnoremap <C-Right> :vertical resize +2<CR>
+    nnoremap <C-Left> :vertical resize -2<CR>
+    nnoremap <C-Up> :res -5<CR>
+    nnoremap <C-Down> :res +5<CR>
+
+else
+    nnoremap [1;5C :vertical resize +2<CR>
+    nnoremap [1;5D :vertical resize -2<CR>
+    nnoremap [1;5A :res +5<CR>
+    nnoremap [1;5B :res -5<CR>
+endif
+"}}}
+
+
+" Custom mapping {{{
+    inoremap <C-o> <Esc>
+    nnoremap <C-o> i
+    vnoremap <C-o> <Esc>
+    nnoremap : ;
+    nnoremap ; :
+    cnoremap w!! w !sudo tee > /dev/null %
+"}}}
+"
+"Leader mapping {{{
+
+    nnoremap <leader>f :%s/\s\+$//<CR>
+    nnoremap <leader>T ::CtrlPTag<CR>
+    nnoremap <leader>b :bn<CR>
+    
+" Session mapping {{{
+    nnoremap <leader>s :SaveSession "default"<CR>
+    nnoremap <leader>l :LoadSession "default"<CR>
+" }}}
+
+
+" Cscope mapping {{{
+
+    nnoremap <leader>ccc :call GenCscope()<CR>:redraw!<CR>
+
+    nnoremap <Leader>fs :cscope find s <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>fg :cscope find g <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>fc :cscope find c <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>ft :cscope find t <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>fe :cscope find e <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>ff :cscope find f <C-R>=expand("<cfile>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>fd :cscope find d <C-R>=expand("<cword>")<CR><CR>:botright cwindow<CR>
+    nnoremap <Leader>fi :cscope find i ^<C-R>=expand("<cfile>")<CR>$<CR>:botright cwindow<CR>
+
+" }}}
+
+"}}}
+
+" vim:ft=vim

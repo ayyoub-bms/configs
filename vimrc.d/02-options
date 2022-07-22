@@ -1,0 +1,77 @@
+filetype plugin indent on
+
+" Display
+"
+set cursorline
+set encoding=utf-8
+set hidden
+set laststatus=2
+set listchars=tab:▸\ ,eol:¬,extends:»,precedes:«
+set modelines=1
+set noerrorbells
+set novisualbell
+set number
+set relativenumber
+set ruler
+set scrolloff=7
+set showbreak=ß
+set showcmd
+set showmatch
+set showmode
+set smartcase
+set splitbelow
+set splitright
+set ssop -=folds
+set ssop-=options
+set t_vb= " Disable bells
+set title
+set tm=500
+set ttyfast
+
+
+
+" Formatting
+"
+set autoindent
+set backspace=2
+set expandtab
+set fileformat=unix
+set foldmethod=indent
+set formatoptions=croqt1
+set ignorecase
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
+set textwidth=120
+
+
+" Searching
+"
+set hlsearch
+set incsearch
+
+"The two stars asks to look recursively at all sub directories
+set path+=**
+
+
+" Wild Menu
+"
+set wildmenu
+set wildmode=longest:longest,full
+set wildchar=<Tab>
+set wildignore+=.hg,.git,.svn
+set wildignore+=*.aux,*.out,*.toc
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
+set wildignore+=*.spl
+set wildignore+=*.sw?
+set wildignore+=*.ds_store
+set wildignore+=*.luac
+set wildignore+=migrations
+set wildignore+=*.pyc
+set wildignore+=*.orig
+
+set autochdir
+
+
+syntax on

@@ -1,0 +1,21 @@
+
+augroup global
+    au!
+    au GUIFailed * qall
+    au FocusLost * :wa
+    au BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \ execute 'normal! g`"zvzz' |
+                \ endif
+augroup END
+
+" Vim config files
+augroup vim_filetype
+    au!
+    au BufRead,BufEnter $VIM_CONFIG_DIR/* 
+                \set ft=vim|
+                \set fdm=marker|
+                \set foldlevel=0
+augroup END
+
+" vim:ft=vim

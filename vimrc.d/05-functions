@@ -1,0 +1,137 @@
+
+"Tag management {{{
+
+    function! ExecSysTags() "{{{
+        let l:ftype = &ft
+        let l:systags = expand(g:ctags_tags_folder) . '/systags-' . l:ftype
+        let l:command = ''
+        let l:err_code = 0
+        if 'cpp' == l:ftype
+            let l:command = ' -R --c++-kinds=+p --fields=+iaS --extras=+q /usr/include'
+        elseif 'python' == l:ftype
+            let l:command = ' -R --languages=python --python-kinds=-iv --fields=+l --extras=+q ' . g:py_install_path
+        else
+            echoerr  l:ftype . " File type not supported"
+            let l:err_code = 1
+        endif
+        if l:err_code == 0
+            execute ':!ctags -o ' . l:systags . l:command
+            redraw!
+        endif
+    endfunction "}}}
+
+
+    function! ExecTags(dir, file, ftype) "{{{
+        let l:tagfile = expand(g:ctags_tags_folder) .  a:file
+        let l:python_cmd = ' -R --python-kinds=-i --fields=+ianS --extras=+q '
+        let l:cpp_cmd = ' -R --c++-kinds=+p --fields=+iantS --extras=+f '
+        let l:current = ''
+        if a:ftype == 'python'
+            let l:current = l:python_cmd
+        elseif a:ftype == 'cpp'
+            let l:current = l:cpp_cmd
+        else
+            echoerr a:ftype . "Not supported!"
+        endif
+        let l:command = ':!ctags -o ' . l:tagfile . '-' . a:ftype . l:current . a:dir . a:file
+        silent exec l:command
+    endfunction "}}}
+
+
+    function! SaveTags(workspace) "{{{
+        let l:project_name = FindProjectRoot(a:workspace)
+        if l:project_name != ''
+            call ExecTags(a:workspace, l:project_name, &ft)
+        endif
+    endfunction
+"}}}
+
+
+    function! GetTags(workspace) "{{{
+
+        let l:project_name =  FindProjectRoot(a:workspace)
+        let l:suffix = l:project_name . '-' . &ft
+        let g:cscope_current_database = expand(g:cscope_dbs_folder . l:suffix)
+        let l:cs_db = g:cscope_dbs_folder . l:suffix
+
+        "Manage Ctags
+        let l:my_tags = expand(g:ctags_tags_folder . l:suffix)
+        let l:my_tags = l:my_tags . ',' . expand(g:ctags_tags_folder) . 'systags' . '-' . &ft
+        execute ':set tags=' . l:my_tags
+
+        if l:cs_db != $CS_DB
+            if '' != $CS_DB
+                silent execute ':cs kill 0'
+            endif
+            if !filereadable(l:cs_db)
+                call GenCscope()
+            endif
+            let $CS_DB = l:cs_db
+            silent execute ':cs add ' . $CS_DB
+        endif
+    endfunction
+"}}}
+
+    "FIXME: Change the project root and cscope to_find to global variables to prevent setting conditions
+    function! GenCscope() "{{{
+        let l:to_find = ''
+        let l:ret_code = 0
+        if 'python' == &ft
+            let l:to_find = ' -name "*.py" '
+            let l:name = FindProjectRoot(g:py_projects_dir)
+            let l:current_project = g:py_projects_dir . l:name
+        elseif 'cpp' == &ft
+            let l:to_find =  ' -name "*.c" -o -name "* .h" -o -name "*.hpp" -o -name "*.cpp" -o -name "*.cxx"'
+            let l:name = FindProjectRoot(g:cpp_projects_dir)
+            let l:current_project = g:cpp_projects_dir . l:name
+        else
+            let l:ret_code = 1
+        endif
+
+        if l:ret_code == 0
+            let l:destination_file = g:cscope_dbs_folder . l:name . '-' . &ft
+            silent execute ':! find ' . l:current_project . l:to_find . ' -type f > ' . l:destination_file . '.files'
+            silent execute ':!cscope -b -i ' . l:destination_file . '.files -f ' . l:destination_file
+        else
+            echoerr 'Unable to generate cscope'
+        endif
+    endfunction
+"}}}
+
+"}}}
+
+" Files and directory search {{{
+    function! FindProjectRoot(workspace)
+        let l:current_dir= expand('%:p:h')
+        let l:sep = matchstr(l:current_dir,'[\\/]')
+        let l:sep = ( l:sep == '/' ? '/' : '\')
+        let l:comparator = strpart(l:current_dir,0,len(expand(a:workspace)))
+        return l:comparator !=expand(a:workspace)?'':split(strpart(l:current_dir,len(expand(a:workspace))),l:sep)[0]
+    endfunction
+"}}}
+
+"Session management {{{
+
+    function! SaveSession()
+        silent exec ':wa'
+        silent exec ':NERDTreeClose'
+        silent exec ':bd NERD'
+        silent exec ':mksession! ~/.vim/sessions/default'
+    endfunction
+
+    function! DeleteSession(session)
+        if filereadable(expand(a:session))
+            exec system('rm -rf ' . a:session)
+            echo "Session " . a:session . " Deleted!"
+        else
+            echo "Session " . a:session . " Not found!"
+        endif
+    endfunction
+"}}}
+
+
+com! -nargs=1 SaveSession exec ':NERDTreeClose' | exec ':mksession! ~/.vim/sessions/' . <args>
+com! -nargs=1 LoadSession exec ':so ~/.vim/sessions/' . <args>
+com! -nargs=1 DelSession call DeleteSession('~/.vim/sessions/' . <args>)
+
+" vim:ft=vim

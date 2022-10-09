@@ -12,8 +12,8 @@ import os
 import texoutparse
 
 project = vim.eval('s:current_project')
-file = [f for f in os.listdir(project) if f.endswith('.tex')][0]
-file = os.path.join(project, file)
+file_name = [f for f in os.listdir(project) if f.endswith('.tex')][0]
+file = os.path.join(project, file_name)
 
 log_dir = os.path.join(project, 'logs')
 build_dir = os.path.join(project, 'build')
@@ -48,10 +48,16 @@ EPY
 endfunction
 
 function! OpenPdf()
-
-    silent execute ':!open ' . s:current_project . '/build/' . expand('%:r') . '.pdf'
-    redraw!
-
+python3 << EPY
+import vim
+import os
+project = vim.eval('s:current_project')
+file_name = [f for f in os.listdir(project) if f.endswith('.tex')][0]
+file = os.path.join(project, 'build', file_name.replace('.tex', '.pdf'))
+command = f'evince --fullscreen {file} &'
+os.system(command)
+EPY
+redraw!
 endfunction
 
 nnoremap <leader>\o :call OpenPdf()<CR>

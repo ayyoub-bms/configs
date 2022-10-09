@@ -29,8 +29,9 @@ os.system(' '.join([command, '>', compilation_file]))
 
 parser = texoutparse.LatexLogParser()
 
-# We are supposed to have only one tex file in the main package
-# Enhance code to take into account a special name that is set in a project config file
+# Temporary: 
+# We are supposed to have only one tex file in the main latex project
+
 with open(compilation_file) as log_file:
     parser.process(log_file)
 
